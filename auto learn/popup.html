@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>EduBot Pro Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-area">
+        <span class="logo-icon">🚀</span>
+        <h1 class="logo-text">Edu<span>Bot Pro</span></h1>
+      </div>
+      <div id="status-badge" class="status-badge status-on">ONLINE</div>
+    </header>
+
+    <!-- Status indicator box -->
+    <div class="status-box">
+      <div class="status-indicator">
+        <span class="pulse-dot"></span>
+        <span id="status">Đang kết nối trang học tập...</span>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-section">
+      <div class="progress-info">
+        <span class="progress-title">Tiến trình bài học</span>
+        <span id="progressPercent" class="progress-value">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div id="progressBarFill" class="progress-bar-fill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- Options Section -->
+    <div class="settings-section">
+      <div class="settings-title">Cấu hình tự động</div>
+      
+      <!-- Option: Auto Learn -->
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">Tự động học</div>
+          <div class="setting-desc">Tự tua video & tự điền bài đọc lý thuyết</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="autoLearn" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <!-- Option: Auto Navigate -->
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">Chuyển bài tự động</div>
+          <div class="setting-desc">Chuyển sang bài tiếp theo ngay khi xong</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="autoNext" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      
+      <!-- Options: Speed inputs -->
+      <div class="settings-grid">
+        <div class="input-group">
+          <div class="input-header">
+            <span class="input-title">Tốc độ tua</span>
+            <span class="input-desc">(giây)</span>
+          </div>
+          <input type="number" id="seekSpeed" value="10" min="1" max="60">
+        </div>
+        <div class="input-group">
+          <div class="input-header">
+            <span class="input-title">Tốc độ phát</span>
+            <span class="input-desc">(video)</span>
+          </div>
+          <select id="videoSpeed" class="custom-select">
+            <option value="1">1.0x (Chuẩn)</option>
+            <option value="1.5">1.5x</option>
+            <option value="2" selected>2.0x (Nhanh)</option>
+            <option value="4">4.0x (Rất nhanh)</option>
+            <option value="8">8.0x (Tối đa)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Panel -->
+    <div class="stats-section">
+      <div class="stats-title">Thống kê phiên học</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-value" id="statsCompleted">0</span>
+          <span class="stat-label">Bài học đã xong</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="statsTimeSaved">0m</span>
+          <span class="stat-label">Thời gian tiết kiệm</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+      <button id="manualSeek" class="btn-primary" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);">
+        <span class="btn-icon">⏳</span> Tua video đến cuối
+      </button>
+      <button id="manualGoToReading" class="btn-primary" style="background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);">
+        <span class="btn-icon">📖</span> Chuyển sang bài đọc
+      </button>
+      <button id="manualFillReading" class="btn-primary" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+        <span class="btn-icon">📝</span> Hoàn thành bài đọc
+      </button>
+    </div>
+
+    <!-- Logger Terminal -->
+    <div class="log-section">
+      <div class="log-header">
+        <span>Nhật ký hoạt động</span>
+        <button id="clear-log-btn" class="clear-btn">Xóa</button>
+      </div>
+      <div id="log-terminal" class="log-terminal">
+        <div class="log-line system-msg">[Hệ thống] EduBot Pro đã sẵn sàng học tập.</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span>Rikkei Edu Auto Learn Booster v3.4</span>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

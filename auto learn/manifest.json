@@ -1,0 +1,63 @@
+{
+  "manifest_version": 3,
+  "name": "EduBot Pro - Trợ Lý Tự Học E-Learning",
+  "version": "3.4.0",
+  "description": "Tự phát video, tự điền bài đọc lý thuyết, chuyển bài tự động và đồng bộ điều khiển Edge Media Session.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "*://*.rikkeiedu.com/*",
+    "*://*.rikkei.edu.vn/*",
+    "*://*.youtube.com/*",
+    "*://*.youtube-nocookie.com/*",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "128": "icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.rikkei.edu.vn/*",
+        "*://*.rikkeiedu.com/*",
+        "*://player.vimeo.com/video/*",
+        "*://*.vimeocdn.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_end",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "*://*.rikkei.edu.vn/*",
+        "*://*.rikkeiedu.com/*"
+      ],
+      "js": ["main_world.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "*://www.youtube.com/embed/*",
+        "*://*.youtube.com/embed/*",
+        "*://www.youtube-nocookie.com/embed/*",
+        "*://*.youtube-nocookie.com/embed/*"
+      ],
+      "js": ["youtube_content.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ]
+}

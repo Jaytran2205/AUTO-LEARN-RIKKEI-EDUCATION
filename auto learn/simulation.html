@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mô phỏng Học tập RikkeiEdu & Extension</title>
+  <link rel="stylesheet" href="simulation.css">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Portal Container -->
+  <div id="portal-app">
+    <!-- 1. Header (Trang chủ RikkeiEdu) -->
+    <header class="portal-header">
+      <div class="header-left">
+        <div class="logo">
+          <span class="logo-red">R</span><span class="logo-black">IKAI</span><span class="logo-blue">Edu</span>
+          <span class="tagline">where dreams come true</span>
+        </div>
+        <nav class="nav-links">
+          <a href="#" class="nav-item active" id="btn-home-nav">🏠 Trang chủ</a>
+        </nav>
+      </div>
+      <div class="header-right">
+        <button class="btn-ql">Hệ thống quản lý</button>
+        <div class="lang-selector">
+          🌐 VN <span>▼</span>
+        </div>
+        <div class="profile-pic">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80" alt="Avatar">
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. Home Page View -->
+    <main id="home-view" class="view-container">
+      <div class="banner-title">
+        <h2>Kỳ II</h2>
+      </div>
+      <div class="course-grid">
+        <!-- Card 1 -->
+        <div class="course-card">
+          <div class="card-image bg-eng"></div>
+          <div class="card-body">
+            <span class="level-badge">Beginner</span>
+            <div class="course-stats">
+              <span>📖 23 Bài học</span>
+              <span>👥 1023 học viên</span>
+            </div>
+            <h3>[ENG305-K25] - Tiếng Anh Toeic 3</h3>
+            <button class="btn-learn">Học ngay ↗</button>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="course-card">
+          <div class="card-image bg-skl"></div>
+          <div class="card-body">
+            <span class="level-badge">Beginner</span>
+            <div class="course-stats">
+              <span>📖 8 Bài học</span>
+              <span>👥 1023 học viên</span>
+            </div>
+            <h3>[SKL01 - CNTT] Kỹ năng làm việc nhóm và giải quyết xung đột</h3>
+            <button class="btn-learn">Học ngay ↗</button>
+          </div>
+        </div>
+
+        <!-- Card 3: IT-215 (Target) -->
+        <div class="course-card target-course" id="it215-card">
+          <div class="card-image bg-fastapi">
+            <div class="target-glow">Mục tiêu kiểm thử</div>
+          </div>
+          <div class="card-body">
+            <span class="level-badge highlight">Beginner</span>
+            <div class="course-stats">
+              <span>📖 25 Bài học</span>
+              <span>👥 1023 học viên</span>
+            </div>
+            <h3>[IT-215] Phát triển dịch vụ Web với FastAPI</h3>
+            <button class="btn-learn active">Học ngay ↗</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 3. Course Details & Learning Page View -->
+    <main id="learning-view" class="view-container" style="display: none;">
+      <div class="learning-layout">
+        <!-- Left Side: Main Content Viewer (Video / Reading) -->
+        <div class="content-viewer">
+          
+          <!-- Banner Chào Mừng (Default state) -->
+          <div id="welcome-banner" class="welcome-box">
+            <div class="welcome-bg"></div>
+            <div class="welcome-content">
+              <h3>Chào mừng bạn đến với khóa học</h3>
+              <div class="welcome-badges">
+                <span>📚 25 Sessions</span>
+                <span>👨‍🎓 Bài học</span>
+              </div>
+              <p>Cùng khám phá kiến thức mới và nâng tầm kỹ năng của bạn. Hành trình bắt đầu từ những bước chân đầu tiên.</p>
+              <button class="btn-start-now">Chọn bài học bên phải để bắt đầu ➔</button>
+            </div>
+          </div>
+
+          <!-- Video Player Content Block -->
+          <div id="video-block" class="content-block" style="display: none;">
+            <div class="video-header">
+              <h3 id="video-title">Session 02 - Lesson 01 - Tổng quan kiến trúc web và FastAPI</h3>
+            </div>
+            
+            <div class="video-player-container">
+              <!-- Video Screen -->
+              <div class="video-screen-wrapper">
+                <video id="sim-video" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" playsinline></video>
+                
+                <!-- Native Style Play Overlay (YouTube Simulator overlay) -->
+                <div id="native-play-overlay" class="native-play-overlay">
+                  <div class="play-icon-circle">▶</div>
+                  <span class="overlay-tip">Trình phát Native (Bấm đây để dùng phím Mũi Tên tua)</span>
+                </div>
+
+                <!-- Bypass Notice Overlay -->
+                <div id="bypass-toast" class="bypass-toast">
+                  Bypass: Đã tua nhanh tới 96%!
+                </div>
+              </div>
+
+              <!-- External Control Panel UI (Rikkei Custom controls) -->
+              <div class="external-controls">
+                <div class="controls-left">
+                  <button id="btn-play-external" class="ctrl-btn" title="Phát qua giao diện (Khóa tua)">▶</button>
+                  <span id="time-display">0:00 / 0:00</span>
+                </div>
+                <div class="controls-center">
+                  <button id="btn-rewind-external" class="ctrl-btn">⏪ 10s</button>
+                  <button id="btn-forward-external" class="ctrl-btn">⏩ 10s</button>
+                </div>
+                <div class="controls-right">
+                  <button id="btn-volume-external" class="ctrl-btn">🔊</button>
+                  <button id="btn-fullscreen-external" class="ctrl-btn">⛶</button>
+                </div>
+              </div>
+
+              <!-- Fake timeline scrubbing bar -->
+              <div class="timeline-container" id="timeline-container">
+                <div class="timeline-bg">
+                  <div class="timeline-fill" id="timeline-fill"></div>
+                </div>
+                <div class="timeline-tooltip" id="timeline-tooltip">Kéo thả bị khóa khi phát bằng giao diện ngoài</div>
+              </div>
+            </div>
+            
+            <div class="video-info-box">
+              <h4>Chi tiết bài học</h4>
+              <p>Bài học này sẽ hướng dẫn các bạn cách thức hoạt động của mô hình Web truyền thống (SSR) so với Web Service / API. Hiểu sâu hơn về ASGI Server và thiết lập dự án FastAPI cơ bản.</p>
+            </div>
+          </div>
+
+          <!-- Reading Content Block (Bài đọc) -->
+          <div id="reading-block" class="content-block" style="display: none;">
+            <div class="reading-content-area">
+              <h3>Tài liệu tham khảo & Hướng dẫn thiết lập FastAPI</h3>
+              <hr>
+              <h4>I. Giới thiệu</h4>
+              <p>FastAPI là một Web framework hiện đại, hiệu năng cao để viết các API bằng Python. Nó được thiết kế dựa trên các tính năng gợi ý kiểu (type hints) tiêu chuẩn của Python 3.8+.</p>
+              
+              <h4>II. Các tính năng cốt lõi</h4>
+              <ul>
+                <li><strong>Nhanh:</strong> Hiệu năng tương đương NodeJS và Go (nhờ Starlette và Pydantic).</li>
+                <li><strong>Hạn chế lỗi:</strong> Giảm khoảng 40% lỗi do nhà phát triển gây ra.</li>
+                <li><strong>Trực quan:</strong> Hỗ trợ auto-complete tuyệt vời trên các IDE soạn thảo.</li>
+                <li><strong>Tài liệu tự động:</strong> Tự động sinh giao diện Swagger UI tại đường dẫn <code>/docs</code>.</li>
+              </ul>
+
+              <h4>VI. Tài liệu tham khảo</h4>
+              <ul class="docs-ref-links">
+                <li>FastAPI Documentation: <a href="#">https://fastapi.tiangolo.com/</a></li>
+                <li>MDN Web Docs: Client-Server Overview.</li>
+                <li>ASGI Specification: <a href="#">https://asgi.readthedocs.io/</a></li>
+              </ul>
+            </div>
+
+            <!-- Reading Questions Form -->
+            <div class="reading-questions-box">
+              <h3>Câu hỏi bài đọc</h3>
+              <div class="questions-list">
+                <!-- Question 1 -->
+                <div class="question-accordion-card">
+                  <div class="q-header" onclick="toggleAccordion('q1-body')">
+                    <span class="q-title">Câu hỏi 1 <span id="q1-status" class="q-badge badge-pending">Chưa hoàn thành</span></span>
+                    <span class="chevron">▼</span>
+                  </div>
+                  <div id="q1-body" class="q-body active">
+                    <p class="q-text">Câu hỏi: Hãy nêu định nghĩa về FastAPI và sự khác biệt chính giữa mô hình SSR và Web Service?</p>
+                    <textarea id="ans1" placeholder="Nhập câu trả lời của bạn tại đây..."></textarea>
+                  </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="question-accordion-card">
+                  <div class="q-header" onclick="toggleAccordion('q2-body')">
+                    <span class="q-title">Câu hỏi 2 <span id="q2-status" class="q-badge badge-pending">Chưa hoàn thành</span></span>
+                    <span class="chevron">▼</span>
+                  </div>
+                  <div id="q2-body" class="q-body active">
+                    <p class="q-text">Câu hỏi: Tại sao ASGI server (như Uvicorn) lại cần thiết khi chạy ứng dụng FastAPI?</p>
+                    <textarea id="ans2" placeholder="Nhập câu trả lời của bạn tại đây..."></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit button -->
+              <div class="form-actions">
+                <button id="btn-submit-reading" class="btn-submit-reading">Nộp bài đọc (Lưu)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quiz Content Block (Bài trắc nghiệm) -->
+          <div id="quiz-block" class="content-block" style="display: none;">
+            <div class="quiz-container">
+              <h3>Bài trắc nghiệm: Kiểm tra kiến thức FastAPI</h3>
+              <hr>
+              <div class="quiz-question">
+                <p><strong>Câu hỏi:</strong> FastAPI được xây dựng trên hai thư viện Python cốt lõi nào?</p>
+                <div class="quiz-options">
+                  <label class="quiz-opt"><input type="radio" name="qopt" value="A"> A. Django và Flask</label>
+                  <label class="quiz-opt"><input type="radio" name="qopt" value="B"> B. Starlette và Pydantic</label>
+                  <label class="quiz-opt"><input type="radio" name="qopt" value="C"> C. NumPy và Pandas</label>
+                  <label class="quiz-opt"><input type="radio" name="qopt" value="D"> D. Request và BeautifulSoup</label>
+                </div>
+              </div>
+              <button id="btn-submit-quiz" class="btn-submit-reading">Nộp bài trắc nghiệm</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Side: Session & Lesson List Sidebar -->
+        <aside class="sidebar-lessons-list">
+          <div class="sidebar-header">
+            <h3>🗂 Danh sách bài học</h3>
+            <span class="progress-ratio" id="sidebar-progress-text">24/25 Bài học</span>
+          </div>
+
+          <div class="accordion-list">
+            <!-- Session 01 -->
+            <div class="session-card">
+              <div class="session-header active" onclick="toggleSession('s1-lessons')">
+                <div class="session-title-wrapper">
+                  <span class="check-icon done">✔</span>
+                  <span class="session-title">Session 01: Course Orientation - LÝ THUYẾT</span>
+                </div>
+                <span class="chevron">▲</span>
+              </div>
+              
+              <div id="s1-lessons" class="lessons-container" style="display: block;">
+                <div class="session-buttons">
+                  <button class="btn-sub red-btn">📥 Nộp Link Mindmap</button>
+                  <button class="btn-sub green-btn">👁 Xem Kết Quả</button>
+                </div>
+                
+                <div class="lesson-accordion active">
+                  <div class="lesson-header-row" onclick="toggleLessonItems('l1-items')">
+                    <span class="check-icon done">✔</span>
+                    <span class="lesson-name">Lesson 1: Course Orientation</span>
+                    <span class="status-btn">Đã hoàn thành tất cả ▲</span>
+                  </div>
+                  
+                  <div id="l1-items" class="lesson-subitems" style="display: block;">
+                    <div class="sub-item" id="item-s1-l1-video">
+                      <span class="item-icon">▶</span>
+                      <span class="item-name">Video giới thiệu</span>
+                      <span class="item-status done">✔</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="lesson-accordion">
+                  <div class="lesson-header-row">
+                    <span class="check-icon"></span>
+                    <span class="lesson-name">Bài tập về nhà</span>
+                    <span class="status-btn">Chưa hoàn thành ▼</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Session 02 -->
+            <div class="session-card">
+              <div class="session-header active" onclick="toggleSession('s2-lessons')">
+                <div class="session-title-wrapper">
+                  <span class="check-icon" id="icon-session-2"></span>
+                  <span class="session-title">Session 02: Giới thiệu & Cài đặt FastAPI - LÝ THUYẾT</span>
+                </div>
+                <span class="chevron">▲</span>
+              </div>
+              
+              <div id="s2-lessons" class="lessons-container" style="display: block;">
+                <div class="session-buttons">
+                  <button class="btn-sub red-btn">📥 Nộp Link Mindmap</button>
+                  <button class="btn-sub green-btn">👁 Xem Kết Quả</button>
+                </div>
+                
+                <div class="lesson-accordion active">
+                  <div class="lesson-header-row" onclick="toggleLessonItems('s2-l1-items')">
+                    <span class="check-icon" id="icon-lesson-2-1"></span>
+                    <span class="lesson-name">Lesson 1: Tổng quan kiến trúc Web và FastAPI</span>
+                    <span class="status-btn">Chi tiết ▲</span>
+                  </div>
+                  
+                  <div id="s2-l1-items" class="lesson-subitems" style="display: block;">
+                    <!-- Target Items to Learn -->
+                    <div class="sub-item active" id="item-s2-l1-video">
+                      <span class="item-icon">▶</span>
+                      <span class="item-name">Video bài học</span>
+                      <span class="item-status" id="status-s2-l1-video">Chờ...</span>
+                    </div>
+                    <div class="sub-item" id="item-s2-l1-reading">
+                      <span class="item-icon">📄</span>
+                      <span class="item-name">Bài đọc tham khảo</span>
+                      <span class="item-status" id="status-s2-l1-reading">Chờ...</span>
+                    </div>
+                    <div class="sub-item" id="item-s2-l1-quiz">
+                      <span class="item-icon">❓</span>
+                      <span class="item-name">Bài trắc nghiệm nhanh</span>
+                      <span class="item-status" id="status-s2-l1-quiz">Chờ...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <!-- FLOATING CHROME EXTENSION SIMULATOR (Requested) -->
+  <div id="extension-simulator" class="ext-sim-container">
+    <div class="ext-header" id="ext-drag-handle">
+      <div class="ext-title">
+        <span class="ext-logo">🚀</span>
+        <div class="ext-title-text">
+          <h4>RikkeiEdu Booster</h4>
+          <span class="ext-badge">SIMULATOR</span>
+        </div>
+      </div>
+      <div class="ext-minimize" onclick="toggleExtMinimize()">_</div>
+    </div>
+    
+    <div class="ext-body" id="ext-body-content">
+      <!-- Live Status Panel -->
+      <div class="ext-status-box">
+        <div class="ext-status-dot"></div>
+        <div id="ext-status-text">Đang ở Trang chủ...</div>
+      </div>
+
+      <!-- Real-time progress bar (Requested) -->
+      <div class="ext-progress-section">
+        <div class="ext-progress-label">
+          <span>Tiến trình hoàn thành:</span>
+          <span id="ext-progress-pct">0%</span>
+        </div>
+        <div class="ext-progress-bar-bg">
+          <div id="ext-progress-bar-fill" class="ext-progress-bar-fill" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Settings checkboxes -->
+      <div class="ext-switches">
+        <div class="ext-switch-row">
+          <label class="ext-switch">
+            <input type="checkbox" id="ext-autoLearn" checked>
+            <span class="ext-slider"></span>
+          </label>
+          <div class="ext-label-desc">
+            <span class="lbl-title">Tự động học</span>
+            <span class="lbl-sub">Tự động điền bài đọc & tua video</span>
+          </div>
+        </div>
+
+        <div class="ext-switch-row">
+          <label class="ext-switch">
+            <input type="checkbox" id="ext-autoSub" checked>
+            <span class="ext-slider"></span>
+          </label>
+          <div class="ext-label-desc">
+            <span class="lbl-title">Tự động bật phụ đề</span>
+            <span class="lbl-sub">Kích hoạt captions khi xem</span>
+          </div>
+        </div>
+
+        <div class="ext-switch-row">
+          <label class="ext-switch">
+            <input type="checkbox" id="ext-autoNext" checked>
+            <span class="ext-slider"></span>
+          </label>
+          <div class="ext-label-desc">
+            <span class="lbl-title">Tự động chuyển bài</span>
+            <span class="lbl-sub">Chuyển bài ngay khi xong</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Textbox configuration -->
+      <div class="ext-inputs">
+        <div class="ext-input-group">
+          <label>Tốc độ tua (s)</label>
+          <input type="number" id="ext-seekSpeed" value="10" min="1">
+        </div>
+        <div class="ext-input-group">
+          <label>Tốc độ phát</label>
+          <select id="ext-videoSpeed" style="background: #1e293b; color: #fff; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 2px 4px; font-size: 11px; outline: none; width: 100%; box-sizing: border-box;">
+            <option value="1">1.0x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2" selected>2.0x</option>
+            <option value="4">4.0x</option>
+            <option value="8">8.0x</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Manual Next button -->
+      <button id="ext-btn-manual-next" class="ext-btn-primary">⏩ Chuyển bài ngay</button>
+      
+      <!-- Live logs console -->
+      <div class="ext-logs-console">
+        <div class="logs-header">Hệ thống logs giả lập:</div>
+        <div id="ext-logs-list" class="logs-list">
+          <div class="log-entry system">Bắt đầu mô phỏng extension thành công.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="simulation.js"></script>
+</body>
+</html>
